@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    width: 400px;
+    margin: 0;
+    padding: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+#steps {
+    padding-left: 14px;
+}
+
+#steps li {
+    color: grey;
+}
+
+#steps li.active {
+    color: green;
+}
+
+.input-wrapper {
+    margin-bottom: 5px;
+}

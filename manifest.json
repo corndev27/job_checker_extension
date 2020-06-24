@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Check job",
+  "description": "Checking user job",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "tabs", "webNavigation",  "https://google.*/*"
+  ]
+}
