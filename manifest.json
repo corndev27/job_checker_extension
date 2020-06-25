@@ -13,11 +13,11 @@
         "http://*/*",
         "https://*/*"
       ],
-      "js": ["content.js"],
+      "js": ["api.js", "content.js"],
       "run_at": "document_end"
     }
   ],
   "permissions": [
-    "tabs", "webNavigation",  "https://google.*/*"
+    "tabs", "webNavigation", "storage",  "https://google.*/*"
   ]
 }

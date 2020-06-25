@@ -1,59 +1,44 @@
-var params = {};
-var step = 1;
-var url = new URL(window.location.href);
+(function () {
+	var params = {};
+	var api = new JobCheckerApi();
+	var linkNodes = [];
+	api.setUrl(window.location.href);
 
-function getParams() {
-	params = request.data;
-	step = checkQuery() ? 2 : 1;
-	sendResponse({step: step});
-
-	return true;
-}
-
-chrome.runtime.sendMessage({payload: ''});
-
-function checkQuery() {
-	return params.query === url.searchParams.get('q')
-}
-
-function initClickListeners() {
-	var linksCollection = Array.from(document.querySelectorAll('#search a'));
-	linksCollection.forEach(function (item, index) {
-		item.addEventListener('click', function (e) {
-			// console.log(window.step);
-			//e.preventDefault();
-			// if(step === 2) {
-			// 	e.preventDefault();
-			// 	var clickedUrl = this.getAttribute('href');
-			// 	if (params.site && new URL(params.site).host === clickedUrl.host) {
-			// 		step = 3;
-			// 		updatePopupStep();
-			// 	}
-			// 	window.open(clickedUrl, '_blank');
-			// }
-		});
-	});
-}
-
-function updatePopupStep() {
-	chrome.runtime.sendMessage({
-		message: "update_checker_step",
-		step: step
-	});
-}
-
-if(checkQuery()) {
-	step = 2;
-}
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	if (request.message === "update_checker_params") {
-		params = request.data;
-		step = checkQuery() ? 2 : 1;
-		sendResponse({step: step});
-		console.log(window.step);
-		return true;
+	function onClick(e) {
+		e.preventDefault();
+		api.setParam('clicked', '1');
+		window.location.href = this.getAttribute('href');
 	}
-});
 
-initClickListeners();
+	function initListeners() {
+		if(api.checkDomain() && api.checkQuery(params.query) && params.url) {
+			linkNodes =  Array.from(document.querySelectorAll('#search a[href="'+params.url+'"]'));
+
+			linkNodes.forEach(function (item, index) {
+				item.addEventListener('click', onClick);
+			});
+		}
+	}
+
+	function removeListeners() {
+		linkNodes.forEach(function (item) {
+			item.removeEventListener('click', onClick);
+		})
+	}
+
+	api.getParams(['query', 'url'], function (result) {
+		params = result;
+		initListeners();
+	});
+
+	api.onChangeParams(function (changes) {
+		for(var key in changes) {
+			params[key] = changes[key].newValue;
+		}
+
+		if(changes['query'] || changes['url']) {
+			removeListeners();
+			initListeners();
+		}
+	});
+}());
