@@ -24,7 +24,6 @@ JobCheckerApi.prototype.onChangeParams = function (callback) {
 };
 
 JobCheckerApi.prototype.checkDomain = function () {
-  console.log(this);
   if (!this.currentUrl) return false;
   // ^https:\/\/(?:(?:www\.)?)google\.(?:[a-z]*)(?:(?:\/search\?(?:.*))*)$
   var regex = new RegExp('^https:\\/\\/(?:(?:www\\.)?)' + this.domain + '\\.(?:[a-z]*\\/)(?:(?:search\\?(?:.*))*)$');
