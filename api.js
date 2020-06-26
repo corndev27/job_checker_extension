@@ -25,8 +25,8 @@ JobCheckerApi.prototype.onChangeParams = function (callback) {
 
 JobCheckerApi.prototype.checkDomain = function () {
   if (!this.currentUrl) return false;
-  // ^https:\/\/(?:(?:www\.)?)google\.(?:[a-z]*)(?:(?:\/search\?(?:.*))*)$
-  var regex = new RegExp('^https:\\/\\/(?:(?:www\\.)?)' + this.domain + '\\.(?:[a-z]*\\/)(?:(?:search\\?(?:.*))*)$');
+  // ^https:\/\/(?:(?:www\.)?)google(?:(?:\.[a-z]*){1,2}\/)(?:(?:search\?(?:.*))*)$
+  var regex = new RegExp('^https:\\/\\/(?:(?:www\\.)?)'+this.domain+'(?:(?:\\.[a-z]*){1,2}\\/)(?:(?:search\\?(?:.*))*)$');
   return regex.test(this.currentUrl.href);
 };
 
